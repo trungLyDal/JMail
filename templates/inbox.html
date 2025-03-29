@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jmail | Compose</title>
+    <link rel="stylesheet" href="../assets/main.css">
+</head>
+<body>
+    <div class="page-header">
+        <div class="jmailLogoandname">
+        <h1 id="jmailHeader">JMail</h1>
+        <img src="../assets/emaillogo.jpg" alt="Logo" class="header-logo"></div>
+        
+        <form method="POST" action="/logout">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    <h1 className = "title">Inbox</h1>
+<p class="inbox-navigation">
+    <a href="/compose">Compose Email</a>
+    <span class="separator">|</span>
+    <a href="/sent">Sent Emails</a>
+</p>
+    <div id="emailListContainer"></div>
+    <p id="lastLoginMessage"></p>
+    
+
+   
+    <script>
+    let currentEmailIds = [];
+    const emailListContainer = document.getElementById('emailListContainer');
+    function displayEmails(emails) {
+            if (emails.length > 0) {
+                const newEmailsHTML = emails.map(email => `
+                    <div class="email-item" data-email-id="${email.id}" style="cursor: pointer;">
+                        <p>
+                            <span><strong>Date:</strong>${new Date(email.created_at).toLocaleString('en-CA', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true
+                            })}</span>
+                            <span><strong>Subject:</strong> ${email.subject}</span>
+                            <span><strong>From:</strong> ${email.sender}</span>
+                            <span><strong>To:</strong> ${email.recipient}</span>
+                        </p>
+                        <div><strong>Body:</strong> ${email.body}</div>
+                    </div>
+                `).join('');
+                emailListContainer.innerHTML = newEmailsHTML;
+                currentEmailIds = emails.map(email => email.id);
+            } else {
+                  emailListContainer.innerHTML = '<p>Your inbox is empty</p>';
+                currentEmailIds = [];
+            }
+        }
+function appendNewEmails(newEmails) {
+            if (newEmails.length > 0) {
+                const newEmailsHTML = newEmails.map(email => `
+                    <div class="email-item" data-email-id="${email.id}" style="cursor: pointer;">
+                        <p>
+                            <span>${new Date(email.created_at).toLocaleString('en-CA', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true
+                            })}</span>
+                            <span><strong>Subject:</strong> ${email.subject}</span>
+                            <span><strong>From:</strong> ${email.sender}</span>
+                            <span><strong>To:</strong> ${email.recipient}</span>
+                        </p>
+                        <div><strong>Body:</strong> ${email.body}</div>
+                    </div>
+                `).join('');
+                emailListContainer.innerHTML += newEmailsHTML;
+                currentEmailIds = currentEmailIds.concat(newEmails.map(email => email.id));
+            }
+        }
+function fetchEmails() {
+            fetch('/api/inbox')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(emails => {
+                    if (currentEmailIds.length === 0) {
+                        // Initial load
+                        displayEmails(emails);
+                    } else {
+                        // Polling for new emails
+                        const newEmails = emails.filter(email => !currentEmailIds.includes(email.id));
+                        if (newEmails.length > 0) {
+                            appendNewEmails(newEmails);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Failed to fetch emails:', error);
+                    if (currentEmailIds.length === 0) {
+                          emailListContainer.innerHTML = '<p>Failed to load emails.</p>';
+                    }
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchEmails(); // Initial load of emails
+            setInterval(fetchEmails, 60000); // Poll every minute (60000 milliseconds)
+        });
+
+        // Function to display the last login time
+        function displayLastLogin() {
+    const messageElement = document.getElementById('lastLoginMessage');
+    let previousLastLogin = localStorage.getItem('lastLoginTime');
+
+    // Check if the query parameter is present (immediately after login)
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryParamLogin = urlParams.get('previousLastLogin');
+
+    if (queryParamLogin) {
+        previousLastLogin = queryParamLogin;
+        localStorage.setItem('lastLoginTime', previousLastLogin); // Update on login
+    }
+
+    if (previousLastLogin) {
+        const previousLoginDate = new Date(previousLastLogin);
+
+        if (isNaN(previousLoginDate.getTime())) {
+            messageElement.textContent = 'You have not logged in yet.';
+        } else {
+            const adjustedDate = new Date(previousLoginDate.getTime() - 3 * 60 * 60 * 1000);
+
+            const loginDate = adjustedDate.toLocaleDateString('en-CA', {
+                timeZone: 'America/Halifax',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            const loginTime = adjustedDate.toLocaleTimeString('en-CA', {
+                timeZone: 'America/Halifax',
+                hour: 'numeric',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+
+            const timeZoneAbbreviation = adjustedDate.toLocaleString('en-CA', { timeZone: 'America/Halifax', timeZoneName: 'short' }).split(' ')[1];
+            const timeZoneName = timeZoneAbbreviation || "ADT";
+
+            messageElement.textContent = `You last logged in on: ${loginDate} at ${loginTime} (${timeZoneName}).`;
+        }
+    } else {
+        messageElement.textContent = 'You have not logged in yet.';
+    }
+}
+
+displayLastLogin();
+    </script>
+</body>
+</html>

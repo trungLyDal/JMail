@@ -1,0 +1,508 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align items to the top for better flow */
+    box-sizing: border-box;
+    position: relative;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding-top: 60px; /* Add padding to account for fixed header */
+}
+
+#jmailHeader {
+    margin: 0;
+}
+
+/* Header Styles */
+.page-header {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+.jmailLogoandname {
+    display: flex;
+    align-items: center;
+}
+.page-header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.header-logo {
+    width: 40px;
+    height: auto;
+    margin: 0 10px;
+    border-radius: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+.page-header form {
+    margin: 0; 
+    margin-right: -1vw;
+}
+
+.page-header form button[type="submit"] {
+    background: none;  
+    color: white; 
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+
+/* Login Styles */
+.loginHeading {
+    font-size: 2em;
+    color: #2c3e50;
+    text-align: center;
+    margin-top: 10vh;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    top: 0;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    width: 350px;
+    max-width: 100%;
+    margin-bottom: 30px;
+}
+
+form[method="POST"] {
+    text-align: center;
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #34495e;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #4299e1;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+button[type="submit"] {
+    background-color: #4299e1;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #3182ce;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+}
+
+form[method="POST"] button[type="submit"] {
+    background-color: #e53e3e;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+form[method="POST"] button[type="submit"]:hover {
+    background-color: #c53030;
+}
+
+form[method="POST"] button[type="submit"]:focus {
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.3);
+}
+
+.error,
+.error-message {
+    color: #e53e3e;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 0.9em;
+    padding: 8px;
+    background-color: #fef0f0;
+    border-radius: 4px;
+    border: 1px solid #fbcaca;
+}
+
+.error-message {
+    display: none;
+}
+
+/* Inbox Styles */
+h1 {
+    text-align: center;
+    margin-top: 80px; /* Adjust margin to account for fixed header */
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+#emailListContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin: auto;
+}
+
+.email-item {
+    border: 6px solid #161616;
+    padding: 10px;
+    margin-bottom: 0.5vh;
+    cursor: pointer;
+    text-align: left;
+    width: 80%;
+    box-sizing: border-box;
+    min-height: 200px; /* Added: Allow container to grow */
+}
+
+.email-item p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #333;
+    text-align: left;
+    display: flex;
+    align-items: baseline;
+}
+
+#date,
+#To,
+#From,
+#Subject {
+    margin-right: 5vw;
+}
+
+.email-item p strong,
+.email-item p span {
+    white-space: nowrap;
+    display: block;
+}
+
+.email-item p strong {
+    font-weight: bold;
+}
+
+.email-item p span:first-child::before {
+    content: "";
+}
+
+.email-item > div {
+    text-align: left;
+    border-top: 1px solid #252424;
+    padding-top: 10px;
+    margin-top: 5px;
+    min-height: 50px; /* Added: Allow body content to grow */
+}
+
+.email-item > p > span {
+    pointer-events: none;
+}
+
+#lastLoginMessage {
+    background-color: #edf2f7;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
+    max-width: 80%;
+    margin-top: 0.5vh;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.inbox-navigation {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center; /* Center the compose and sent links */
+}
+
+.inbox-navigation a {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.inbox-navigation a:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+
+.inbox-navigation a.compose-button {
+    background-color: #4299e1;
+    color: white;
+    border-color: #4299e1;
+}
+
+.inbox-navigation a.compose-button:hover {
+    background-color: #3182ce;
+    border-color: #3182ce;
+}
+
+/* Compose Page Specific Styles */
+#compose-email-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+}
+
+#compose-email-form div {
+    margin-bottom: 15px;
+}
+
+#compose-email-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #34495e;
+    font-size: 0.95em;
+}
+
+#compose-email-form input[type="email"],
+#compose-email-form input[type="text"],
+#compose-email-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#compose-email-form input[type="email"]:focus,
+#compose-email-form input[type="text"]:focus,
+#compose-email-form textarea:focus {
+    border-color: #4299e1;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+#compose-email-form textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+#compose-email-form .form-actions {
+    display: flex; /* Enable flexbox for the container */
+    align-items: center; /* Vertically align items in the center */
+    margin-top: 15px; /* Add some space above the button/link */
+}
+
+#compose-email-form .form-actions button[type="submit"],
+#compose-email-form .form-actions p.inbox-navigation a {
+    flex-grow: 1; /* Make both elements take up equal available space */
+    text-align: center; /* Center the text within both elements */
+    padding: 10px 15px; /* Apply consistent padding */
+    border-radius: 6px;
+    font-size: 1.1em; /* Keep the font size consistent */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+#compose-email-form .form-actions button[type="submit"] {
+    background-color: #e90e0e; /* Example red color */
+    color: white;
+    border: none; /* Ensure no extra border affecting size */
+    transition: background-color 0.3s ease;
+    margin-right: 5px; /* Add a small gap between them if needed */
+}
+
+#compose-email-form .form-actions button[type="submit"]:hover {
+    background-color: #c50b0b;
+}
+
+#compose-email-form .form-actions p.inbox-navigation {
+    margin: 0; /* Remove default paragraph margins */
+}
+
+#compose-email-form .form-actions p.inbox-navigation a {
+    color: #4299e1; /* Use your link color */
+    text-decoration: none;
+    border: 1px solid #ccc; /* Add a border to the link to match the button's visual weight (optional) */
+    background-color: #f9f9f9; /* Add a background color to the link (optional) */
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    margin-left: 5px; /* Add a small gap between them if needed */
+}
+
+#compose-email-form .form-actions p.inbox-navigation a:hover {
+    color: #3182ce;
+    background-color: #eee;
+    border-color: #bbb;
+}
+
+#message-area {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #2d3748;
+    color: #f7fafc;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 30px;
+    font-size: 0.9em;
+    border-top: 1px solid #4a5568;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .page-header {
+        padding: 10px 15px; /* Slightly reduce padding */
+    }
+
+    .jmailLogoandname h1 {
+        font-size: 20px; /* Slightly smaller title */
+    }
+
+    .header-logo {
+        width: 30px; /* Smaller logo */
+        margin: 0 8px;
+    }
+
+    .page-header form button[type="submit"] {
+        font-size: 0.9em; /* Smaller button text */
+        padding: 5px 8px;
+    }
+
+    .email-item p {
+        flex-direction: column; /* Stack email details vertically */
+        align-items: flex-start; /* Align to the left */
+    }
+
+    #date,
+    #To,
+    #From,
+    #Subject {
+        margin-right: 0; /* Remove right margin when stacked */
+        margin-bottom: 5px; /* Add some bottom margin for spacing */
+    }
+
+    .email-item p strong {
+        display: inline-block; /* Keep "Date:", "Subject:", etc. on one line */
+        min-width: 60px; /* Adjust as needed */
+    }
+
+    .email-item p span {
+        display: inline-block; /* Allow wrapping of the content */
+    }
+}
+
+
+@media (max-width: 480px) {
+    .page-header {
+        flex-direction: column; /* Stack header items vertically */
+        align-items: flex-start; /* Align items to the left */
+        padding: 10px;
+    }
+
+    .jmailLogoandname {
+        margin-bottom: 5px; /* Add some space below logo and name */
+    }
+
+    .jmailLogoandname h1 {
+        font-size: 1.5em; /* Even smaller title */
+    }
+
+    .header-logo {
+        width: 25px; /* Even smaller logo */
+        margin-right: 5px;
+    }
+
+    .page-header form {
+        margin-right: 0; /* Reset right margin */
+    }
+
+    .page-header form button[type="submit"] {
+        font-size: 0.85em;
+        padding: 4px 6px;
+    }
+
+    .email-item {
+        border-width: 4px; /* Thinner border on smaller screens */
+        padding: 8px;
+    }
+
+    .email-item p strong {
+        min-width: 50px; /* Adjust further for very small screens */
+    }
+}

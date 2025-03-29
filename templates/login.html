@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jmail | Login</title>
+    <link rel="stylesheet" href="../assets/main.css">
+</head>
+<body>
+    <div class="page-header">
+        <h1>Jmail</h1>
+        <img src="../assets/emaillogo.jpg" alt="Logo" class="header-logo">
+    </div>
+    <h1 id = "loginHeading">Login</h1>
+    <p class="error-message">error: none</p>
+    <form method="POST" action="/login">
+        <label for="email">Email:</label>
+        <input type="email" name="email" title="Enter your email" placeholder="Enter your email" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" title="Enter your password" placeholder="Enter your password" required><br><br>
+        <button type="submit" id="login-submit">Login</button>
+    </form>
+    <p>
+        Haven't Signed Up? <a href="/register">Go to Register</a>
+    </p>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const errorMessageElement = document.querySelector('.error-message');
+            if (errorMessageElement.textContent.trim() !== '') {
+                errorMessageElement.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

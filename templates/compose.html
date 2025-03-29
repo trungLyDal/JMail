@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JMail | Compose</title>
+    <link rel="stylesheet" href="../assets/main.css">
+</head>
+<body>
+    <div class="page-header">
+        <h1 id="jmailHeader">JMail</h1>
+        <img src="../assets/emaillogo.jpg" alt="Logo" class="header-logo">
+    </div>
+    <h1>Compose New Email</h1>
+   
+    <form id="compose-email-form">
+        <div>
+            <label for="recipient">To:</label>
+            <input type="email" id="recipient" name="recipient" required>
+        </div>
+        <div>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject">
+        </div>
+        <div>
+            <label for="body">Message:</label>
+            <textarea id="body" name="body" rows="8" required></textarea>
+        </div>
+        <div class="form-actions">
+            <button type="submit">Send Email</button>
+            <p class="inbox-navigation">
+                <a href="/inbox">Back</a>
+            </p>
+        </div>
+        <div id="message-area" style="margin-top: 10px;"></div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const composeForm = document.getElementById('compose-email-form');
+            const messageArea = document.getElementById('message-area');
+    
+            composeForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+    
+                const recipient = document.getElementById('recipient').value;
+                const subject = document.getElementById('subject').value;
+                const body = document.getElementById('body').value;
+    
+                const emailData = {
+                    recipient: recipient,
+                    subject: subject,
+                    body: body
+                };
+    
+                try {
+                    const response = await fetch('/api/send-email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(emailData),
+                    });
+    
+                    const data = await response.json();
+    
+                    messageArea.classList.remove('success', 'error');
+    
+                    if (response.ok) {
+                        messageArea.textContent = 'Email sent successfully!';
+                        messageArea.classList.add('success');
+                        composeForm.reset();
+                  
+                    } else {
+                        messageArea.textContent = `Error sending email: ${data.error || 'Something went wrong.'}`;
+                        messageArea.classList.add('error'); 
+                    }
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    messageArea.textContent = 'Network error occurred while sending email.';
+                    messageArea.classList.add('error'); 
+                }
+            });
+        });
+    </script>
+</body>
+</html>
