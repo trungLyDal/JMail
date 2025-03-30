@@ -181,7 +181,7 @@ form[method="POST"] button[type="submit"]:focus {
 /* Inbox Styles */
 h1 {
     text-align: center;
-    margin-top: 80px; /* Adjust margin to account for fixed header */
+    margin-top: 80px; 
     font-weight: 600;
     letter-spacing: -0.02em;
 }
@@ -345,27 +345,27 @@ h1 {
 }
 
 #compose-email-form .form-actions {
-    display: flex; /* Enable flexbox for the container */
-    align-items: center; /* Vertically align items in the center */
-    margin-top: 15px; /* Add some space above the button/link */
+    display: flex; 
+    align-items: center; 
+    margin-top: 15px;
 }
 
 #compose-email-form .form-actions button[type="submit"],
 #compose-email-form .form-actions p.inbox-navigation a {
-    flex-grow: 1; /* Make both elements take up equal available space */
-    text-align: center; /* Center the text within both elements */
-    padding: 10px 15px; /* Apply consistent padding */
+    flex-grow: 1; 
+    text-align: center; 
+    padding: 10px 15px; 
     border-radius: 6px;
-    font-size: 1.1em; /* Keep the font size consistent */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    font-size: 1.1em; 
+    box-sizing: border-box; 
 }
 
 #compose-email-form .form-actions button[type="submit"] {
-    background-color: #e90e0e; /* Example red color */
+    background-color: #e90e0e; 
     color: white;
-    border: none; /* Ensure no extra border affecting size */
+    border: none; 
     transition: background-color 0.3s ease;
-    margin-right: 5px; /* Add a small gap between them if needed */
+    margin-right: 5px; 
 }
 
 #compose-email-form .form-actions button[type="submit"]:hover {
@@ -373,16 +373,16 @@ h1 {
 }
 
 #compose-email-form .form-actions p.inbox-navigation {
-    margin: 0; /* Remove default paragraph margins */
+    margin: 0; 
 }
 
 #compose-email-form .form-actions p.inbox-navigation a {
-    color: #4299e1; /* Use your link color */
+    color: #4299e1; 
     text-decoration: none;
-    border: 1px solid #ccc; /* Add a border to the link to match the button's visual weight (optional) */
-    background-color: #f9f9f9; /* Add a background color to the link (optional) */
+    border: 1px solid #ccc; 
+    background-color: #f9f9f9; 
     transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-    margin-left: 5px; /* Add a small gap between them if needed */
+    margin-left: 5px; 
 }
 
 #compose-email-form .form-actions p.inbox-navigation a:hover {
@@ -427,69 +427,69 @@ footer {
 /* Responsive Styles */
 @media (max-width: 768px) {
     .page-header {
-        padding: 10px 15px; /* Slightly reduce padding */
+        padding: 10px 15px; 
     }
 
     .jmailLogoandname h1 {
-        font-size: 20px; /* Slightly smaller title */
+        font-size: 20px; 
     }
 
     .header-logo {
-        width: 30px; /* Smaller logo */
+        width: 30px; 
         margin: 0 8px;
     }
 
     .page-header form button[type="submit"] {
-        font-size: 0.9em; /* Smaller button text */
+        font-size: 0.9em; 
         padding: 5px 8px;
     }
 
     .email-item p {
-        flex-direction: column; /* Stack email details vertically */
-        align-items: flex-start; /* Align to the left */
+        flex-direction: column; 
+        align-items: flex-start; 
     }
 
     #date,
     #To,
     #From,
     #Subject {
-        margin-right: 0; /* Remove right margin when stacked */
-        margin-bottom: 5px; /* Add some bottom margin for spacing */
+        margin-right: 0; 
+        margin-bottom: 5px; 
     }
 
     .email-item p strong {
-        display: inline-block; /* Keep "Date:", "Subject:", etc. on one line */
-        min-width: 60px; /* Adjust as needed */
+        display: inline-block; 
+        min-width: 60px; 
     }
 
     .email-item p span {
-        display: inline-block; /* Allow wrapping of the content */
+        display: inline-block; 
     }
 }
 
 
 @media (max-width: 480px) {
     .page-header {
-        flex-direction: column; /* Stack header items vertically */
-        align-items: flex-start; /* Align items to the left */
+        flex-direction: column; 
+        align-items: flex-start; 
         padding: 10px;
     }
 
     .jmailLogoandname {
-        margin-bottom: 5px; /* Add some space below logo and name */
+        margin-bottom: 5px; 
     }
 
     .jmailLogoandname h1 {
-        font-size: 1.5em; /* Even smaller title */
+        font-size: 1.5em; 
     }
 
     .header-logo {
-        width: 25px; /* Even smaller logo */
+        width: 25px; 
         margin-right: 5px;
     }
 
     .page-header form {
-        margin-right: 0; /* Reset right margin */
+        margin-right: 0; 
     }
 
     .page-header form button[type="submit"] {
@@ -498,11 +498,11 @@ footer {
     }
 
     .email-item {
-        border-width: 4px; /* Thinner border on smaller screens */
+        border-width: 4px; 
         padding: 8px;
     }
 
     .email-item p strong {
-        min-width: 50px; /* Adjust further for very small screens */
+        min-width: 50px; 
     }
 }

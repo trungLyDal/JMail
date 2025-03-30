@@ -67,9 +67,12 @@
                     messageArea.classList.remove('success', 'error');
     
                     if (response.ok) {
-                        messageArea.textContent = 'Email sent successfully!';
+                        messageArea.textContent = 'Email sent successfully! Please wait for a moment.';
                         messageArea.classList.add('success');
                         composeForm.reset();
+                        setTimeout(() => {
+                        window.location.href = '/inbox';
+                    }, 1500);
                   
                     } else {
                         messageArea.textContent = `Error sending email: ${data.error || 'Something went wrong.'}`;

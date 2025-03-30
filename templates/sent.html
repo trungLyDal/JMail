@@ -22,9 +22,7 @@
 </p>
     <div id="emailListContainer"></div>
     <p id="lastLoginMessage"></p>
-    <form method="POST" action="/logout">
-        <button type="submit">Logout</button>
-    </form>
+  
 
     <script>
     let currentEmailIds = [];
@@ -90,10 +88,8 @@ function fetchEmails() {
                 })
                 .then(emails => {
                     if (currentEmailIds.length === 0) {
-                        // Initial load
                         displayEmails(emails);
                     } else {
-                        // Polling for new emails
                         const newEmails = emails.filter(email => !currentEmailIds.includes(email.id));
                         if (newEmails.length > 0) {
                             appendNewEmails(newEmails);
@@ -109,22 +105,20 @@ function fetchEmails() {
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetchEmails(); // Initial load of emails
-            setInterval(fetchEmails, 60000); // Poll every minute (60000 milliseconds)
+            fetchEmails(); 
+            setInterval(fetchEmails, 60000); 
         });
 
-        // Function to display the last login time
         function displayLastLogin() {
     const messageElement = document.getElementById('lastLoginMessage');
     let previousLastLogin = localStorage.getItem('lastLoginTime');
 
-    // Check if the query parameter is present (immediately after login)
     const urlParams = new URLSearchParams(window.location.search);
     const queryParamLogin = urlParams.get('previousLastLogin');
 
     if (queryParamLogin) {
         previousLastLogin = queryParamLogin;
-        localStorage.setItem('lastLoginTime', previousLastLogin); // Update on login
+        localStorage.setItem('lastLoginTime', previousLastLogin); 
     }
 
     if (previousLastLogin) {

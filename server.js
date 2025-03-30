@@ -7,18 +7,15 @@ const fs = require('fs');
 const bcrypt = require('bcrypt');
 const path = require('path');
 
-// Function to hash passwords (using bcrypt)
 async function hashPassword(password) {
     const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);
 }
 
-// Function to generate a session ID
 function generateSessionId() {
     return crypto.randomBytes(64).toString('hex');
 }
 
-// Function to authenticate a user
 async function authenticateUser(email, password, callback) {
     try {
         pool.query(
@@ -34,10 +31,10 @@ async function authenticateUser(email, password, callback) {
                     if (passwordMatch) {
                         callback(null, results[0].user_id);
                     } else {
-                        callback(null, null); // Authentication failed
+                        callback(null, null); 
                     }
                 } else {
-                    callback(null, null); // User not found
+                    callback(null, null); 
                 }
             }
         );
@@ -46,10 +43,9 @@ async function authenticateUser(email, password, callback) {
     }
 }
 
-// Function to create a session
 function createSession(userId, callback) {
     const sessionId = generateSessionId();
-    const expires = Date.now() + 24 * 60 * 60 * 1000; // Session expires in 24 hours
+    const expires = Date.now() + 24 * 60 * 60 * 1000; 
     pool.query(
         'INSERT INTO sessions (user_id, session_id, expires) VALUES (?, ?, ?)',
         [userId, sessionId, expires],
@@ -62,7 +58,6 @@ function createSession(userId, callback) {
     );
 }
 
-// Function to get user ID from session ID
 function getUserIdFromSession(sessionId, callback) {
     pool.query(
         'SELECT user_id FROM sessions WHERE session_id = ? AND expires > ?',
@@ -74,18 +69,16 @@ function getUserIdFromSession(sessionId, callback) {
             if (results.length > 0) {
                 callback(null, results[0].user_id);
             } else {
-                callback(null, null); // Session invalid or expired
+                callback(null, null); 
             }
         }
     );
 }
 
-// Function to delete a session (logout)
 function deleteSession(sessionId, callback) {
     pool.query('DELETE FROM sessions WHERE session_id = ?', [sessionId], callback);
 }
 
-// Function to record last login time.
 function recordLastLogin(userId, callback) {
     const now = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format for MySQL DATETIME
     pool.query(
@@ -98,7 +91,6 @@ function recordLastLogin(userId, callback) {
 function isLoggedIn(req) {
     return req.session && req.session.userId;
 }
-// Function to retrieve last login time.
 function getLastLogin(userId, callback) {
     pool.query(
         'SELECT last_login FROM user_info WHERE user_id = ?',
@@ -125,7 +117,6 @@ function getEmailsForUser(userId, callback, type = 'inbox') {
   }
   
   function storeEmail(senderId, recipientEmail, subject, body, callback) {
-    // First, find the recipient's user ID
     pool.query('SELECT user_id FROM user_info WHERE email = ?', [recipientEmail], (err, recipientResults) => {
         if (err) {
             return callback(err);
@@ -135,7 +126,6 @@ function getEmailsForUser(userId, callback, type = 'inbox') {
         }
         const recipientId = recipientResults[0].user_id;
 
-        // Insert the email into the emails table
         pool.query(
             'INSERT INTO emails (sender_id, recipient_id, subject, body, created_at) VALUES (?, ?, ?, ?, NOW())',
             [senderId, recipientId, subject, body],
@@ -159,19 +149,18 @@ const server = http.createServer((req, res) => {
         const cookies = parseCookies(req.headers.cookie);
 
         req.session = {};
-        const processRequest = async () => { // Encapsulate request processing in async function
+        const processRequest = async () => { 
             if (cookies.session_id) {
-                await new Promise((resolve) => {  //Use await here
+                await new Promise((resolve) => {  
                     getUserIdFromSession(cookies.session_id, (err, userId) => {
                         if (!err && userId) {
                             req.session.userId = userId;
                         }
-                        resolve(); // Resolve the Promise
+                        resolve(); 
                     });
                 });
             }
 
-            // Serve static files
             if (requestPath.startsWith('/assets/')) {
                 const filePath = path.join(__dirname, requestPath);
                 fs.readFile(filePath, (err, data) => {
@@ -184,7 +173,6 @@ const server = http.createServer((req, res) => {
                     res.end(data);
                 });
             } else if (requestPath === '/' && method === 'GET') {
-                // Serve the login form
                 fs.readFile('./templates/login.html', 'utf8', (err, html) => {
                     if (err) {
                         res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -196,7 +184,6 @@ const server = http.createServer((req, res) => {
                 });
             }else if (requestPath === '/inbox' && method === 'GET') {
                                 if (isLoggedIn(req)) {
-                                    // Serve the inbox.html without fetching data here
                                     fs.readFile('./templates/inbox.html', 'utf8', (err, html) => {
                                         if (err) {
                                             res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -322,7 +309,6 @@ const server = http.createServer((req, res) => {
                     });
                 }
             }
-            // New route for sending emails
             else if (requestPath === '/api/send-email' && method === 'POST') {
                 if (isLoggedIn(req)) {
                     try {
@@ -375,7 +361,6 @@ const server = http.createServer((req, res) => {
                                         res.end('Internal Server Error');
                                         return;
                                     }
-                                    //  Redirect to /inbox after successful login
                                     res.writeHead(302, {
                                         Location: '/inbox?previousLastLogin=' + encodeURIComponent(previousLastLogin),
                                         'Set-Cookie': `session_id=${sessionId}; HttpOnly; Path=/`,
@@ -391,7 +376,6 @@ const server = http.createServer((req, res) => {
                                 res.end('Internal Server Error');
                                 return;
                             }
-                            //  Inserted the error message.
                             const errorHtml = html.replace(/error: none/g, 'Invalid Credentials');
                             res.writeHead(401, { 'Content-Type': 'text/html' });
                             res.end(errorHtml);
@@ -433,10 +417,8 @@ const server = http.createServer((req, res) => {
                         [email],
                         (err, results) => {
                             if (err) {
-                                // Redirect to 404.html instead of sending JSON
                                 fs.readFile('./templates/404.html', 'utf8', (readErr, html) => {
                                     if (readErr) {
-                                        // If 404.html is not found, send a generic 500 error
                                         res.writeHead(500, { 'Content-Type': 'text/plain' });
                                         res.end('Internal Server Error');
                                     } else {

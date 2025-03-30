@@ -11,7 +11,7 @@
         <div class="jmailLogoandname">
         <h1 id="jmailHeader">JMail</h1>
         <img src="../assets/emaillogo.jpg" alt="Logo" class="header-logo"></div>
-        
+
         <form method="POST" action="/logout">
             <button type="submit">Logout</button>
         </form>
@@ -30,6 +30,7 @@
     <script>
     let currentEmailIds = [];
     const emailListContainer = document.getElementById('emailListContainer');
+
     function displayEmails(emails) {
             if (emails.length > 0) {
                 const newEmailsHTML = emails.map(email => `
@@ -77,9 +78,9 @@ function appendNewEmails(newEmails) {
                         <div><strong>Body:</strong> ${email.body}</div>
                     </div>
                 `).join('');
-                emailListContainer.innerHTML += newEmailsHTML;
-                currentEmailIds = currentEmailIds.concat(newEmails.map(email => email.id));
-            }
+                emailListContainer.innerHTML = newEmailsHTML + emailListContainer.innerHTML;
+                currentEmailIds = newEmails.map(email => email.id).concat(currentEmailIds);
+                        }
         }
 function fetchEmails() {
             fetch('/api/inbox')
@@ -91,10 +92,8 @@ function fetchEmails() {
                 })
                 .then(emails => {
                     if (currentEmailIds.length === 0) {
-                        // Initial load
                         displayEmails(emails);
                     } else {
-                        // Polling for new emails
                         const newEmails = emails.filter(email => !currentEmailIds.includes(email.id));
                         if (newEmails.length > 0) {
                             appendNewEmails(newEmails);
@@ -110,22 +109,20 @@ function fetchEmails() {
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetchEmails(); // Initial load of emails
-            setInterval(fetchEmails, 60000); // Poll every minute (60000 milliseconds)
-        });
+            fetchEmails(); 
+            setInterval(fetchEmails, 60000); 
+});
 
-        // Function to display the last login time
         function displayLastLogin() {
     const messageElement = document.getElementById('lastLoginMessage');
     let previousLastLogin = localStorage.getItem('lastLoginTime');
 
-    // Check if the query parameter is present (immediately after login)
     const urlParams = new URLSearchParams(window.location.search);
     const queryParamLogin = urlParams.get('previousLastLogin');
 
     if (queryParamLogin) {
         previousLastLogin = queryParamLogin;
-        localStorage.setItem('lastLoginTime', previousLastLogin); // Update on login
+        localStorage.setItem('lastLoginTime', previousLastLogin); 
     }
 
     if (previousLastLogin) {
@@ -162,6 +159,7 @@ function fetchEmails() {
 }
 
 displayLastLogin();
+   
     </script>
 </body>
 </html>

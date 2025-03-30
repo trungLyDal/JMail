@@ -1,12 +1,25 @@
-# Simple Email Application
+# Jmail (Jun Email) Application
 
-A basic email application built with Node.js and MySQL.
+This application provides a fundamental set of features for users to manage their emails, built using a combination of frontend technologies (HTML and CSS) for the user interface and backend technologies (Node.js and MySQL) for server-side logic and data storage.
 
 ## Features
 
 * User registration and login.
 * Sending and receiving emails.
 * Displaying email inbox and sent emails.
+* Hashing password (for security during registration and login).
+* Session management (to keep users logged in).
+
+## API used:
+* /register (POST): For user registration. The frontend would send user details (email, password) to this endpoint.
+* /login (POST): For user login. The frontend would send login credentials (email, password) to this endpoint.
+* /logout (POST): For user logout.
+* /api/inbox (GET): To fetch the logged-in user's inbox emails.
+* /api/sent (GET): To fetch the logged-in user's sent emails.
+* /api/send (POST): To send a new email. The frontend would send the recipient, subject, and body to this endpoint.
+
+## Additional Notes:
+* Should clear cookies and disable plugins if using with the same browser, for the best result, please use different browser to test the send and receive function.
 
 ## Prerequisites
 
@@ -123,3 +136,9 @@ A basic email application built with Node.js and MySQL.
 * You should be able to register a new account or log in with an existing one.
 * Once logged in, you can view your inbox, send new emails, and see your sent emails.
 
+## Directory Justification:
+The project's directory structure is organized to promote clarity and efficient management of different aspects of the application. The `db` folder houses all database-related files, such as migrations, seeders, and potentially database schema documentation (like ERDs). This centralizes database concerns, making it easier to manage and understand the data layer.
+
+The `templates` folder is dedicated to storing all HTML files. This separation of presentation logic from backend code improves maintainability and allows for a clearer division of responsibilities. Similarly, the `Assets` folder acts as a repository for all external assets used for styling and visual elements, including CSS files and the email logo image. This ensures that all static resources are grouped together.
+
+The placement of `.gitignore`, `package.json`, `server.js`, and `README.md` in the root directory follows common practices learned in class for Node.js projects. These files serve essential project-level functions, such as defining ignored files, managing dependencies, the main server entry point, and providing project documentation, respectively, thus warranting their presence at the top level.
